@@ -11,7 +11,15 @@ public class LowerCase {
     * Non-letter characters are left as is.
     */
     public static String lowerCase(String s) {
-        // Replace the following statement with your code
-        return null;
+        String changed = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            if ((int) s.charAt(i) > 64 && (int) s.charAt(i) < 91) { // Checks if letter is upper case using ASCII table numbers
+               changed += (char) ((int) s.charAt(i) + 32); // difference between upper case and lower case of same letter 
+            } else {
+                changed += s.charAt(i); // If not an upper case letter, then continue
+            }
+        }
+        return changed; 
     }
 }
