@@ -41,8 +41,7 @@ public class LoanCalc {
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {  
     	double g = loan / n; // Starting point for the search
 		
-		while (Math.abs(g * g - endBalance(loan, rate, n, n)) >= epsilon && g <= loan) {
-			loan -= g;
+		while (Math.abs(g * g - endBalance(loan, rate, n, g)) >= epsilon && g <= endBalance(loan, rate, n, g)) {
 			g += epsilon;
 			iterationCounter++;
 		}
@@ -64,7 +63,7 @@ public class LoanCalc {
 		double g = L + H / 2;
 
 		while (H - L > epsilon && (Math.abs(g * g - endBalance(loan, rate, n, g)) >= epsilon)) {
-			if (endBalance(loan, rate, n, g) * endBalance(loan, rate, n, g) < loan) {
+			if (endBalance(loan, rate, n, g) * endBalance(loan, rate, n, L) > 0) {
 				L = g;
 			}
 			else {
@@ -84,7 +83,7 @@ public class LoanCalc {
 
 		for (int i = 0; i < n; i++) {
 			loan -= payment;
-			loan += loan*rate;
+			loan += loan * (rate / 100);
 		}
 
 		return loan;
