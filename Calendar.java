@@ -2,7 +2,7 @@
  * Prints the calendars of all the years in the 20th century.
  */
 public class Calendar {	
-    static int year;
+    static int year = 1900;
 	static int inputYear;
 	static int dayOfMonth = 1;   
 	static int month = 1;
@@ -13,14 +13,11 @@ public class Calendar {
 	
 	public static void main(String args[]) {
 		inputYear = Integer.parseInt(args[0]);
-		year = 0;
-
-	 	while (year < inputYear) {
-	 		advanceDaysOnly(); 
-        }
 
 		while (year < inputYear + 1) {
-	 		System.out.println(dayOfMonth + "/" + month + "/" + inputYear + (dayOfWeek == 1 ? " Sunday" : ""));		
+	 		if (!(year < inputYear)) {
+				System.out.println(dayOfMonth + "/" + month + "/" + inputYear + (dayOfWeek == 1 ? " Sunday" : ""));		
+			}
 	 		advance(); 
 		}
 	 }
@@ -29,36 +26,38 @@ public class Calendar {
 	 // If the month changes, sets the number of days in this month.
 	 // Side effects: changes the static variables dayOfMonth, month, year, dayOfWeek, nDaysInMonth.
 	 private static void advance() {
-		dayOfWeek = dayOfWeek + 1;
-		dayOfMonth = dayOfMonth + 1;
+		if (year < inputYear) {
+			totalDays++;
 
-		if (dayOfWeek == 7) {
+			if (dayOfWeek < 7) {
+				dayOfWeek++;
+			} else {
+				dayOfWeek = 1;
+			}
+
+			if (isLeapYear(year) && totalDays == 366 || !isLeapYear(year) && totalDays == 365) {
+				year++;
+				totalDays = 0;
+			}
+			return;
+		}
+
+		if (dayOfWeek < 7) {
+			dayOfWeek++;
+		} else {
 			dayOfWeek = 1;
 		}
 
-		if (dayOfMonth - 1 == nDaysInMonth(month, inputYear)) {
+		if (dayOfMonth == nDaysInMonth(month, inputYear)) {
 			dayOfMonth = 1;
 			if (month == 12) {
 				month = 0;
 				year++;
 			}
 			month = month + 1;
+		} else {
+			dayOfMonth++;
 		}
-	 }
-
-	 private static void advanceDaysOnly() {
-		dayOfWeek = dayOfWeek + 1;
-		totalDays++;
-
-		if (dayOfWeek == 8) {
-			dayOfWeek = 1;
-		}
-
-		if (isLeapYear(year) && totalDays == 364 || !isLeapYear(year) && totalDays == 365) {
-			year++;
-			totalDays = 0;
-		}
-		
 	 }
 		 
     // Returns true if the given year is a leap year, false otherwise.
