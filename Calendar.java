@@ -32,7 +32,7 @@ public class Calendar {
 		dayOfWeek = dayOfWeek + 1;
 		dayOfMonth = dayOfMonth + 1;
 
-		if (dayOfWeek == 8) {
+		if (dayOfWeek == 7) {
 			dayOfWeek = 1;
 		}
 
